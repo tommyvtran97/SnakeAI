@@ -32,7 +32,7 @@ class Neural_Network(object):
 				current_layer = output_hidden
 
 		output = self.sigmoid(np.dot(current_layer, self.weights[-1]) + self.bias[-1])
-		print(output)
+
 		return (np.argmax(output))
 
 	def relu(self, matrix):
@@ -45,8 +45,8 @@ class Neural_Network(object):
 
 		return (sigmoid)
 
-np.random.seed(0)
-X = np.array([1,0,1,1])
-NN = Neural_Network()
-A = NN.feed_forward(X)
-print(A)
+# np.random.seed(0)
+# X = np.array([0,0,0,0])
+# NN = Neural_Network()
+# A = NN.feed_forward(X)
+# print(A)

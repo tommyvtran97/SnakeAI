@@ -8,22 +8,35 @@ class Snake(object):
 	def __init__(self, pos_x, pos_y, weights, bias):
 		self.pos_x = pos_x
 		self.pos_y = pos_y
-		
+		#np.random.seed(0) 
 		self.NN = Neural_Network(weights, bias)
 		self.weights = self.NN.weights
 		self.bias = self.NN.bias
 
 
-	def vision(self):
-		pass
+	def vision(self, food_pos_x, food_pos_y, snake_list):
+		food1 = food3 = food5 = food7 = 0
+
+		if self.pos_x == food_pos_x and self.pos_y > food_pos_y:
+			food1 = 1
+		if self.pos_x < food_pos_x and self.pos_y == food_pos_y:
+			food3 = 1
+		if self.pos_x == food_pos_x and self.pos_y < food_pos_y:
+			food5 = 1
+		if self.pos_x > food_pos_x and self.pos_y == food_pos_y:
+			food7 = 1
+
+		X = np.array([food1, food3, food5, food7])
+
+		return (X)
+		
 
 	def move_AI(self):
 		pass
 
-	def move_player(self, dx, dy, flag=True):
-		X = np.array([1,0,1,1])
+	def move_player(self, dx, dy, X, flag=True):
+		dx = dy = 0
 		output = self.NN.feed_forward(X)
-		print(output)
 		
 		for event in pg.event.get():
 			if event.type == pg.QUIT:

@@ -7,14 +7,14 @@ from snake import *
 class Game(object):
 
 	def __init__(self):
-		self.points = 0
+		pass
 
 	def run_game(self, weights, bias, points=0, highscore=0, flag=True):
 		pg.init()
 		pg.display.set_caption('Snake Game created by T.Tran')
 		screen = pg.display.set_mode((display_width, display_height))
 		clock = pg.time.Clock()
-		pos_x, pos_y, food_pos_x, food_pos_y, dx, dy, snake_list, snake_length = self.restart_game()
+		pos_x, pos_y, food_pos_x, food_pos_y, dx, dy, snake_list, snake_length, points = self.restart_game()
 
 		while flag:
 			clock.tick(20)
@@ -22,15 +22,14 @@ class Game(object):
 			snake_length, food_pos_x, food_pos_y, points = SNAKE.eat(screen, snake_list, snake_length, food_pos_x, food_pos_y, points)
 			snake_head, snake_list = SNAKE.draw(screen, snake_list, snake_length, food_pos_x, food_pos_y, dx,dy)
 			self.draw_score(screen, points, highscore)
-			pos_x, pos_y, dx, dy, flag = SNAKE.move_player(dx, dy)
+			X = SNAKE.vision(food_pos_x, food_pos_y, snake_list)
+			pos_x, pos_y, dx, dy, flag = SNAKE.move_player(dx, dy, X)
 
 			if self.out_of_bound(pos_x, pos_y) or self.head_body_collision(snake_head, snake_list):
-				pos_x, pos_y, food_pos_x, food_pos_y, dx, dy, snake_list, snake_length = self.restart_game()
-
 				if points > highscore:
 					highscore = points
 
-				point = 0
+				pos_x, pos_y, food_pos_x, food_pos_y, dx, dy, snake_list, snake_length, points = self.restart_game()
 
 			weights = SNAKE.weights
 			bias = SNAKE.bias
@@ -62,6 +61,7 @@ class Game(object):
 	def restart_game(self, food=True):
 		pos_x 	= display_width / 2
 		pos_y 	= display_height / 2
+		points 	= 0
 
 		dx 		= 0
 		dy 		= 0
@@ -78,7 +78,7 @@ class Game(object):
 				else:
 					food = False
 
-		return (pos_x, pos_y, food_pos_x, food_pos_y, dx, dy, snake_list, snake_length)
+		return (pos_x, pos_y, food_pos_x, food_pos_y, dx, dy, snake_list, snake_length, points)
 
 if __name__ == "__main__":
 	np.random.seed(0)
