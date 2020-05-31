@@ -46,7 +46,7 @@ class Neural_Network(object):
 		return (sigmoid)
 
 # np.random.seed(0)
-# X = np.array([0,0,0,0])
+# X = np.array([0,0,0,1])
 # NN = Neural_Network()
 # A = NN.feed_forward(X)
 # print(A)

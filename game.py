@@ -19,11 +19,11 @@ class Game(object):
 		while flag:
 			clock.tick(20)
 			SNAKE = Snake(pos_x, pos_y, weights, bias)
-			snake_length, food_pos_x, food_pos_y, points = SNAKE.eat(screen, snake_list, snake_length, food_pos_x, food_pos_y, points)
 			snake_head, snake_list = SNAKE.draw(screen, snake_list, snake_length, food_pos_x, food_pos_y, dx,dy)
-			self.draw_score(screen, points, highscore)
 			X = SNAKE.vision(food_pos_x, food_pos_y, snake_list)
 			pos_x, pos_y, dx, dy, flag = SNAKE.move_player(dx, dy, X)
+			snake_length, food_pos_x, food_pos_y, points = SNAKE.eat(screen, snake_list, snake_length, food_pos_x, food_pos_y, points)
+			self.draw_score(screen, points, highscore)
 
 			if self.out_of_bound(pos_x, pos_y) or self.head_body_collision(snake_head, snake_list):
 				if points > highscore:

@@ -16,6 +16,7 @@ class Snake(object):
 
 	def vision(self, food_pos_x, food_pos_y, snake_list):
 		food1 = food3 = food5 = food7 = 0
+		body1 = body3 = body5 = body7 = 0
 
 		if self.pos_x == food_pos_x and self.pos_y > food_pos_y:
 			food1 = 1
@@ -26,10 +27,33 @@ class Snake(object):
 		if self.pos_x > food_pos_x and self.pos_y == food_pos_y:
 			food7 = 1
 
+		for x in snake_list[:-1]:
+			if self.pos_x == x[0] and self.pos_y > x[1]:
+				body1 = 1 / (abs(self.pos_y - x[1]) / (snake_size))
+			if self.pos_x < x[0] and self.pos_y == x[1]:
+				body3 = 1 / (abs(self.pos_x - x[0]) / (snake_size))
+			if self.pos_x == x[0] and self.pos_y < x[1]:
+				body5 = 1 / (abs(self.pos_y - x[1]) / (snake_size))
+			if self.pos_x > x[0] and self.pos_y == x[1]:
+				body7 = 1 / (abs(self.pos_x - x[0]) / (snake_size))
+
+		wall1 = 1 / (abs((self.pos_y - offset) + snake_size) / (snake_size))
+		wall3 = 1 / (abs(display_width - self.pos_x) / (snake_size))
+		wall5 = 1 / (abs(display_height - self.pos_y) / (snake_size))
+		wall7 = 1 / (abs(self.pos_x + snake_size) / (snake_size))
+
 		X = np.array([food1, food3, food5, food7])
 
+		# X = np.array([body1, body3, body5, body7])
+		# X = np.array([wall1, wall3, wall5, wall7])
+
+		# X = np.array([food1, food3, food5, food7, body1, body3, body5, body7])
+		# X = np.array([food1, food3, food5, food7, wall1, wall3, wall5, wall7])
+		# X = np.array([body1, body3, body5, body7, wall1, wall3, wall5, wall7])
+
+		# X = np.array([food1, food3, food5, food7, body1, body3, body5, body7, wall1, wall3, wall5, wall7])
+
 		return (X)
-		
 
 	def move_AI(self):
 		pass
