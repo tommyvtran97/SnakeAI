@@ -8,11 +8,9 @@ class Snake(object):
 	def __init__(self, pos_x, pos_y, weights, bias):
 		self.pos_x = pos_x
 		self.pos_y = pos_y
+
 		#np.random.seed(0) 
 		self.NN = Neural_Network(weights, bias)
-		self.weights = self.NN.weights
-		self.bias = self.NN.bias
-
 
 	def vision(self, food_pos_x, food_pos_y, snake_list):
 		food1 = food3 = food5 = food7 = 0
@@ -42,7 +40,7 @@ class Snake(object):
 		wall5 = 1 / (abs(display_height - self.pos_y) / (snake_size))
 		wall7 = 1 / (abs(self.pos_x + snake_size) / (snake_size))
 
-		X = np.array([food1, food3, food5, food7])
+		# X = np.array([food1, food3, food5, food7])
 
 		# X = np.array([body1, body3, body5, body7])
 		# X = np.array([wall1, wall3, wall5, wall7])
@@ -51,42 +49,60 @@ class Snake(object):
 		# X = np.array([food1, food3, food5, food7, wall1, wall3, wall5, wall7])
 		# X = np.array([body1, body3, body5, body7, wall1, wall3, wall5, wall7])
 
-		# X = np.array([food1, food3, food5, food7, body1, body3, body5, body7, wall1, wall3, wall5, wall7])
+		X = np.array([food1, food3, food5, food7, body1, body3, body5, body7, wall1, wall3, wall5, wall7])
 
 		return (X)
 
-	def move_AI(self):
-		pass
-
-	def move_player(self, dx, dy, X, flag=True):
+	def move_snake(self, dx, dy, X, AI=False, flag=True):
 		dx = dy = 0
 		output = self.NN.feed_forward(X)
-		
-		for event in pg.event.get():
-			if event.type == pg.QUIT:
-				flag = False
-			if event.type == pg.KEYDOWN:
-				if event.key == pg.K_q:
-					flag = False
-				if event.key == pg.K_LEFT:
+
+		if AI:
+				if output == 0:
 					dx = -snake_size
 					dy = 0
-				if event.key == pg.K_RIGHT:
+				if output == 1:
 					dx = snake_size
 					dy = 0
-				if event.key == pg.K_UP:
+				if output == 2:
 					dx = 0
 					dy = -snake_size
-				if event.key == pg.K_DOWN:
+				if output == 3:
 					dx = 0
 					dy = snake_size
+				if graphics:
+					for event in pg.event.get():
+						if event.type == pg.QUIT:
+							flag = False
+						if event.type == pg.KEYDOWN:
+							if event.key == pg.K_q:
+								flag = False
+		if not AI:
+			for event in pg.event.get():
+				if event.type == pg.QUIT:
+					flag = False
+				if event.type == pg.KEYDOWN:
+					if event.key == pg.K_q:
+						flag = False
+					if event.key == pg.K_LEFT:
+						dx = -snake_size
+						dy = 0
+					if event.key == pg.K_RIGHT:
+						dx = snake_size
+						dy = 0
+					if event.key == pg.K_UP:
+						dx = 0
+						dy = -snake_size
+					if event.key == pg.K_DOWN:
+						dx = 0
+						dy = snake_size
 
 		self.pos_x += dx
 		self.pos_y += dy
 
 		return (self.pos_x, self.pos_y, dx, dy, flag)
 
-	def eat(self, screen, snake_list, snake_length,  food_pos_x, food_pos_y, points, food=True):
+	def eat(self, snake_list, snake_length, food_pos_x, food_pos_y, points, food=True):
 		if self.pos_x == food_pos_x and self.pos_y == food_pos_y:
 			while food:
 				food_pos_x = np.random.choice(np.arange(0, display_width, step=snake_size))
@@ -97,15 +113,16 @@ class Snake(object):
 						break
 					else:
 						food = False
-			pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
-			pg.draw.rect(screen, [255, 0, 0], [food_pos_x+3, food_pos_y+3, snake_size-6, snake_size-6])
+			if graphics:
+				pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
+				pg.draw.rect(screen, [255, 0, 0], [food_pos_x+3, food_pos_y+3, snake_size-6, snake_size-6])
 
 			snake_length += 1
 			points		 += 1
 
 		return (snake_length, food_pos_x, food_pos_y, points)
 
-	def draw(self, screen, snake_list, snake_length, food_pos_x, food_pos_y, dx, dy, food=True): # Delete Food=True
+	def draw(self, snake_list, snake_length, food_pos_x, food_pos_y, dx, dy, food=True): # Delete Food=True
 
 		snake_head = [self.pos_x, self.pos_y]
 		if dx != 0 or dy != 0:
@@ -113,19 +130,19 @@ class Snake(object):
 
 		if len(snake_list) > snake_length:
 			del snake_list[0]
-		
-		screen.fill([0,0,0])
-		pg.draw.rect(screen, [255,255,255], [0, 0, display_width, offset])
-		pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
-		pg.draw.rect(screen, [255, 0, 0], [food_pos_x+3, food_pos_y+3, snake_size-6, snake_size-6])
+		if graphics:
+			screen.fill([0,0,0])
+			pg.draw.rect(screen, [255,255,255], [0, 0, display_width, offset])
+			pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
+			pg.draw.rect(screen, [255, 0, 0], [food_pos_x+3, food_pos_y+3, snake_size-6, snake_size-6])
 
-		for x in snake_list:
-			if x == snake_list[-1]:
-				pg.draw.rect(screen, [255,255,255], [x[0], x[1], snake_size, snake_size])
-				pg.draw.rect(screen, [0,0,255], [x[0]+3, x[1]+3, snake_size-6, snake_size-6])
-			else:
-				pg.draw.rect(screen, [255,255,255], [x[0], x[1], snake_size, snake_size])
-				pg.draw.rect(screen, [0,255,0], [x[0]+3, x[1]+3, snake_size-6, snake_size-6])
+			for x in snake_list:
+				if x == snake_list[-1]:
+					pg.draw.rect(screen, [255,255,255], [x[0], x[1], snake_size, snake_size])
+					pg.draw.rect(screen, [0,0,255], [x[0]+3, x[1]+3, snake_size-6, snake_size-6])
+				else:
+					pg.draw.rect(screen, [255,255,255], [x[0], x[1], snake_size, snake_size])
+					pg.draw.rect(screen, [0,255,0], [x[0]+3, x[1]+3, snake_size-6, snake_size-6])
 
 
 		return (snake_head, snake_list)
