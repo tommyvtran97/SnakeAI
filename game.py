@@ -108,7 +108,7 @@ class Game(object):
 		return (pos_x, pos_y, food_pos_x, food_pos_y, dx, dy, snake_list, snake_length, points, steps_taken, steps_left)
 
 if __name__ == "__main__":
-	np.random.seed(0)
+	np.random.seed(0)								# Use 0 for reference!
 	highscore 	= 0
 	weights 	= None
 	bias 		= None
@@ -122,12 +122,17 @@ if __name__ == "__main__":
 		GA = Genetic_Algorithm()
 		best_snake_fitness, best_snake_idx, parents_weights, parents_bias, probability = GA.parents_selection(weights, bias, fitness)
 		offspring_weights, offspring_bias = GA.uniform_crossover(parents_weights, parents_bias, probability)
+		offspring_weights_mutated = GA.uniform_mutation(offspring_weights)
 
-		weights = parents_weights + offspring_weights
+		weights = parents_weights + offspring_weights_mutated
 		bias 	= parents_bias + offspring_bias
 
 
 
+
+
+
+#11022	Population = 1000 - Parents = 100 - Generation = 50 NO MUTATION YET - 4 direction vision (food, body, wall) - Max Score = 15 NN: [12,6,4]
 
 	
 

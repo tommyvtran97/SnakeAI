@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 from settings import *
 """
 
@@ -95,6 +96,19 @@ class Genetic_Algorithm(object):
 					break
 
 		return (offspring_weights, offspring_bias)
+
+	def uniform_mutation(self, offspring_weights):
+		offspring_weights_mutated = copy.deepcopy(offspring_weights)
+		
+		for i in range(num_offspring):
+			for j in range(len(layer)-1):
+				for k in range(layer[j]):
+					for l in range(layer[j+1]):
+						if np.random.uniform(0,1) < mutation_rate:
+							offspring_weights_mutated[i][j][k,l] = np.random.choice(np.arange(-1, 1, step=0.01))
+		
+		return (offspring_weights_mutated)
+
 
 
 

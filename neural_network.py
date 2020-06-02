@@ -14,7 +14,7 @@ class Neural_Network(object):
 			for k in range(num_individuals):
 				weights_temp = []
 				for i in range(len(layer)-1):
-					weights_temp.append(np.random.choice(np.arange(-1, 1, step=0.001), size=(layer[i], layer[i+1])))
+					weights_temp.append(np.random.choice(np.arange(-1, 1, step=0.01), size=(layer[i], layer[i+1])))
 				self.weights.append(weights_temp)
 		else:
 			self.weights = weights
@@ -23,7 +23,7 @@ class Neural_Network(object):
 			for _ in range(num_individuals):
 				bias_temp = []
 				for i in range(1, len(layer)):
-					bias_temp.append(np.random.choice(np.arange(-1, 1, step=0.001), size=(1, layer[i])))
+					bias_temp.append(np.random.choice(np.arange(-1, 1, step=0.01), size=(1, layer[i])))
 				self.bias.append(bias_temp)
 		else:
 			self.bias = bias
@@ -51,12 +51,6 @@ class Neural_Network(object):
 		sigmoid = 1 / (1 + np.exp(-matrix))
 
 		return (sigmoid)
-
-# np.random.seed(0)
-# X = np.array([0,0,0,1])
-# NN = Neural_Network()
-# W = NN.weights[1][1]
-# B = NN.bias
 
 
 
