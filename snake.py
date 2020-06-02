@@ -5,14 +5,14 @@ from neural_network import*
 
 class Snake(object):
 
-	def __init__(self, pos_x, pos_y, weights, bias):
+	def __init__(self, pos_x, pos_y, weights, bias, show_best=False):
 		self.pos_x = pos_x
 		self.pos_y = pos_y
 
 		#np.random.seed(0) 
 		self.NN = Neural_Network(weights, bias)
 
-	def vision(self, food_pos_x, food_pos_y, snake_list):
+	def vision(self, food_pos_x, food_pos_y, snake_list):			
 		food1 = food3 = food5 = food7 = 0
 		body1 = body3 = body5 = body7 = 0
 
@@ -54,7 +54,6 @@ class Snake(object):
 		return (X)
 
 	def move_snake(self, dx, dy, X, AI=False, flag=True):
-		dx = dy = 0
 		output = self.NN.feed_forward(X)
 
 		if AI:
@@ -70,20 +69,16 @@ class Snake(object):
 				if output == 3:
 					dx = 0
 					dy = snake_size
-				if graphics:
+				if graphics_training or show_best:
 					for event in pg.event.get():
 						if event.type == pg.QUIT:
 							flag = False
-						if event.type == pg.KEYDOWN:
-							if event.key == pg.K_q:
-								flag = False
+
 		if not AI:
 			for event in pg.event.get():
 				if event.type == pg.QUIT:
 					flag = False
 				if event.type == pg.KEYDOWN:
-					if event.key == pg.K_q:
-						flag = False
 					if event.key == pg.K_LEFT:
 						dx = -snake_size
 						dy = 0
@@ -102,7 +97,7 @@ class Snake(object):
 
 		return (self.pos_x, self.pos_y, dx, dy, flag)
 
-	def eat(self, snake_list, snake_length, food_pos_x, food_pos_y, points, food=True):
+	def eat(self, snake_list, snake_length, food_pos_x, food_pos_y, points, steps_left, food=True):
 		if self.pos_x == food_pos_x and self.pos_y == food_pos_y:
 			while food:
 				food_pos_x = np.random.choice(np.arange(0, display_width, step=snake_size))
@@ -113,14 +108,15 @@ class Snake(object):
 						break
 					else:
 						food = False
-			if graphics:
+			if graphics_training or show_best:
 				pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
 				pg.draw.rect(screen, [255, 0, 0], [food_pos_x+3, food_pos_y+3, snake_size-6, snake_size-6])
 
 			snake_length += 1
 			points		 += 1
+			steps_left 	 += 100
 
-		return (snake_length, food_pos_x, food_pos_y, points)
+		return (snake_length, food_pos_x, food_pos_y, points, steps_left)
 
 	def draw(self, snake_list, snake_length, food_pos_x, food_pos_y, dx, dy, food=True): # Delete Food=True
 
@@ -130,7 +126,7 @@ class Snake(object):
 
 		if len(snake_list) > snake_length:
 			del snake_list[0]
-		if graphics:
+		if graphics_training or show_best:
 			screen.fill([0,0,0])
 			pg.draw.rect(screen, [255,255,255], [0, 0, display_width, offset])
 			pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
@@ -144,10 +140,6 @@ class Snake(object):
 					pg.draw.rect(screen, [255,255,255], [x[0], x[1], snake_size, snake_size])
 					pg.draw.rect(screen, [0,255,0], [x[0]+3, x[1]+3, snake_size-6, snake_size-6])
 
-
 		return (snake_head, snake_list)
-
-
-
 
 

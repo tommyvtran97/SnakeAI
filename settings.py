@@ -1,3 +1,4 @@
+import pygame as pg 
 """
 
 This script contains the main settings used for the Snake Game and the 
@@ -8,8 +9,10 @@ can be changed to the preference of the user.
 """
 
 # Program Settings
-graphics 			= 0
+graphics_training 	= 0
 AI 					= 1
+train				= 0
+show_best			= 1
 
 # Snake Game Setttings
 display_width 		= 520
@@ -25,13 +28,13 @@ weights_size 		= 192
 bias_size	 		= 16
 
 # Genetic Algorithm Settings
-num_individuals 	= 1000
-num_parents			= 100
+num_individuals 	= 500
+num_parents			= 50
 num_generations		= 50
 num_offspring 		= num_individuals - num_parents
 mutation_rate		= 0.05
 
-if graphics:
+if show_best or graphics_training:
 	screen = pg.display.set_mode((display_width, display_height))
 
 
