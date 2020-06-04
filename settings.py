@@ -9,10 +9,13 @@ can be changed to the preference of the user.
 """
 
 # Program Settings
-graphics_training 	= 0
+graphics_training 	= 0			# Turn only on for graphics during training. Note that with this on training take ages!
 AI 					= 1
 train				= 0
-show_best			= 1
+show_plot			= 0
+show_best			= 0
+best_snake			= 1
+FPS					= 30
 
 # Snake Game Setttings
 display_width 		= 520
@@ -23,18 +26,18 @@ snake_size			= 20
 snake_length		= 3
 
 # Neural Network Settings
-layer 				= [12,12,4]
-weights_size 		= 192
-bias_size	 		= 16
+layer 				= [24,16,4]
+weights_size 		= 384
+bias_size	 		= 20
 
 # Genetic Algorithm Settings
 num_individuals 	= 500
 num_parents			= 50
-num_generations		= 50
+num_generations		= 300
 num_offspring 		= num_individuals - num_parents
-mutation_rate		= 0.05
+mutation_rate		= 0.01
 
-if show_best or graphics_training:
+if show_best or graphics_training or best_snake:
 	screen = pg.display.set_mode((display_width, display_height))
 
 

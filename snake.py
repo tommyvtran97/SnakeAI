@@ -1,5 +1,6 @@
 import numpy as np 
 import pygame as pg 
+from math import *
 from settings import *
 from neural_network import*
 
@@ -13,44 +14,79 @@ class Snake(object):
 		self.NN = Neural_Network(weights, bias)
 
 	def vision(self, food_pos_x, food_pos_y, snake_list):			
-		food1 = food3 = food5 = food7 = 0
-		body1 = body3 = body5 = body7 = 0
+		food1 = food2 = food3 = food4 = food5 = food6 = food7 = food8 = 0
+		body1 = body2 = body3 = body4 = body5 = body6 = body7 = body8 = 0
+
+		if (self.pos_x - food_pos_x) != 0 and (self.pos_y - food_pos_y) != 0:
+			angle_food = np.degrees(atan((self.pos_y - food_pos_y) / (self.pos_x - food_pos_x)))
+		else:
+			angle_food = False
 
 		if self.pos_x == food_pos_x and self.pos_y > food_pos_y:
 			food1 = 1
+		if self.pos_x < food_pos_x and angle_food == -45:
+			food2 = 1
 		if self.pos_x < food_pos_x and self.pos_y == food_pos_y:
 			food3 = 1
+		if self.pos_x < food_pos_x and angle_food == 45:
+			food4 = 1
 		if self.pos_x == food_pos_x and self.pos_y < food_pos_y:
 			food5 = 1
+		if self.pos_x > food_pos_x and angle_food == -45:
+			food6 = 1
 		if self.pos_x > food_pos_x and self.pos_y == food_pos_y:
 			food7 = 1
+		if self.pos_x > food_pos_x and angle_food == 45:
+			food8 = 1
 
 		for x in snake_list[:-1]:
+			if (self.pos_x - x[0]) != 0 and (self.pos_y - x[1]) != 0:
+				body_angle = np.degrees(atan((self.pos_y - x[1]) / (self.pos_x - x[0])))
+			else:
+				body_angle = False
+
 			if self.pos_x == x[0] and self.pos_y > x[1]:
 				body1 = 1 / (abs(self.pos_y - x[1]) / (snake_size))
+			if self.pos_x < x[0] and body_angle == -45:
+				body2 = 1 / ((np.sqrt((self.pos_x - x[0])**2 + (self.pos_y - x[1])**2)) / (np.sqrt(2*snake_size**2)))
 			if self.pos_x < x[0] and self.pos_y == x[1]:
 				body3 = 1 / (abs(self.pos_x - x[0]) / (snake_size))
+			if self.pos_x < x[0] and body_angle == 45:
+				body4 = 1 / ((np.sqrt((self.pos_x - x[0])**2 + (self.pos_y - x[1])**2)) / (np.sqrt(2*snake_size**2)))
 			if self.pos_x == x[0] and self.pos_y < x[1]:
 				body5 = 1 / (abs(self.pos_y - x[1]) / (snake_size))
+			if self.pos_x > x[0] and body_angle == -45:
+				body6 = 1 / ((np.sqrt((self.pos_x - x[0])**2 + (self.pos_y - x[1])**2)) / (np.sqrt(2*snake_size**2)))
 			if self.pos_x > x[0] and self.pos_y == x[1]:
 				body7 = 1 / (abs(self.pos_x - x[0]) / (snake_size))
+			if self.pos_x > x[0] and body_angle == 45:
+				body8 = 1 / ((np.sqrt((self.pos_x - x[0])**2 + (self.pos_y - x[1])**2)) / (np.sqrt(2*snake_size**2)))
 
 		wall1 = 1 / (abs((self.pos_y - offset) + snake_size) / (snake_size))
+		if ((display_width - snake_size) - self.pos_x) < (self.pos_y - offset):
+			wall2 = 1 / ((np.sqrt(2*(display_width - self.pos_x)**2)) / (np.sqrt(2*snake_size**2)))
+		else:
+			wall2 = 1 / ((np.sqrt(2*(self.pos_y - offset + snake_size)**2)) / (np.sqrt(2*snake_size**2)))
 		wall3 = 1 / (abs(display_width - self.pos_x) / (snake_size))
+		if ((display_width - snake_size) - self.pos_x) < ((display_height - snake_size) - self.pos_y):
+			wall4 = 1 / ((np.sqrt(2*(display_width - self.pos_x)**2)) / (np.sqrt(2*snake_size**2)))
+		else:
+			wall4 = 1 / ((np.sqrt(2*(display_height - self.pos_y)**2)) / (np.sqrt(2*snake_size**2)))
 		wall5 = 1 / (abs(display_height - self.pos_y) / (snake_size))
+		if (self.pos_x) < ((display_height - snake_size) - self.pos_y):
+			wall6 = 1 / ((np.sqrt(2*(self.pos_x + snake_size)**2)) / (np.sqrt(2*snake_size**2)))
+		else:
+			wall6 = 1 / ((np.sqrt(2*(display_height - self.pos_y)**2)) / (np.sqrt(2*snake_size**2)))
 		wall7 = 1 / (abs(self.pos_x + snake_size) / (snake_size))
+		if (self.pos_x) < (self.pos_y - offset):
+			wall8 = 1 / ((np.sqrt(2*(self.pos_x + snake_size)**2)) / (np.sqrt(2*snake_size**2)))
+		else:
+			wall8 = 1 / ((np.sqrt(2*(self.pos_y - offset + snake_size)**2)) / (np.sqrt(2*snake_size**2)))
 
-		# X = np.array([food1, food3, food5, food7])
-
-		# X = np.array([body1, body3, body5, body7])
-		# X = np.array([wall1, wall3, wall5, wall7])
-
-		# X = np.array([food1, food3, food5, food7, body1, body3, body5, body7])
-		# X = np.array([food1, food3, food5, food7, wall1, wall3, wall5, wall7])
-		# X = np.array([body1, body3, body5, body7, wall1, wall3, wall5, wall7])
-
-		X = np.array([food1, food3, food5, food7, body1, body3, body5, body7, wall1, wall3, wall5, wall7])
-
+		#X = np.array([food1, food3, food5, food7, body1, body3, body5, body7, wall1, wall3, wall5, wall7])	# This is working!
+		X = np.array([food1, food2, food3, food4, food5, food6, food7, food8, body1, body2, body3, body4,  body5, body6, body7, body8,\
+				      wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8])
+	
 		return (X)
 
 	def move_snake(self, dx, dy, X, AI=False, flag=True):
@@ -69,12 +105,13 @@ class Snake(object):
 				if output == 3:
 					dx = 0
 					dy = snake_size
-				if graphics_training or show_best:
+				if graphics_training or show_best or best_snake:
 					for event in pg.event.get():
 						if event.type == pg.QUIT:
 							flag = False
 
 		if not AI:
+			dx = dy = 0
 			for event in pg.event.get():
 				if event.type == pg.QUIT:
 					flag = False
@@ -108,7 +145,7 @@ class Snake(object):
 						break
 					else:
 						food = False
-			if graphics_training or show_best:
+			if graphics_training or show_best or best_snake:
 				pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
 				pg.draw.rect(screen, [255, 0, 0], [food_pos_x+3, food_pos_y+3, snake_size-6, snake_size-6])
 
@@ -126,7 +163,7 @@ class Snake(object):
 
 		if len(snake_list) > snake_length:
 			del snake_list[0]
-		if graphics_training or show_best:
+		if graphics_training or show_best or best_snake:
 			screen.fill([0,0,0])
 			pg.draw.rect(screen, [255,255,255], [0, 0, display_width, offset])
 			pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
