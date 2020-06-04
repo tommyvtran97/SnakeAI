@@ -9,8 +9,6 @@ class Snake(object):
 	def __init__(self, pos_x, pos_y, weights, bias, show_best=False):
 		self.pos_x = pos_x
 		self.pos_y = pos_y
-
-		#np.random.seed(0) 
 		self.NN = Neural_Network(weights, bias)
 
 	def vision(self, food_pos_x, food_pos_y, snake_list):			
@@ -83,7 +81,6 @@ class Snake(object):
 		else:
 			wall8 = 1 / ((np.sqrt(2*(self.pos_y - offset + snake_size)**2)) / (np.sqrt(2*snake_size**2)))
 
-		#X = np.array([food1, food3, food5, food7, body1, body3, body5, body7, wall1, wall3, wall5, wall7])	# This is working!
 		X = np.array([food1, food2, food3, food4, food5, food6, food7, food8, body1, body2, body3, body4,  body5, body6, body7, body8,\
 				      wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8])
 	
@@ -105,7 +102,7 @@ class Snake(object):
 				if output == 3:
 					dx = 0
 					dy = snake_size
-				if graphics_training or show_best or best_snake:
+				if graphics_training or show_best or best_snake_graphics:
 					for event in pg.event.get():
 						if event.type == pg.QUIT:
 							flag = False
@@ -145,7 +142,7 @@ class Snake(object):
 						break
 					else:
 						food = False
-			if graphics_training or show_best or best_snake:
+			if graphics_training or show_best or best_snake_graphics:
 				pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
 				pg.draw.rect(screen, [255, 0, 0], [food_pos_x+3, food_pos_y+3, snake_size-6, snake_size-6])
 
@@ -155,15 +152,14 @@ class Snake(object):
 
 		return (snake_length, food_pos_x, food_pos_y, points, steps_left)
 
-	def draw(self, snake_list, snake_length, food_pos_x, food_pos_y, dx, dy, food=True): # Delete Food=True
-
+	def draw(self, snake_list, snake_length, food_pos_x, food_pos_y, dx, dy):
 		snake_head = [self.pos_x, self.pos_y]
 		if dx != 0 or dy != 0:
 			snake_list.append(snake_head)
 
 		if len(snake_list) > snake_length:
 			del snake_list[0]
-		if graphics_training or show_best or best_snake:
+		if graphics_training or show_best or best_snake_graphics:
 			screen.fill([0,0,0])
 			pg.draw.rect(screen, [255,255,255], [0, 0, display_width, offset])
 			pg.draw.rect(screen, [255,255,255], [food_pos_x, food_pos_y, snake_size, snake_size])
