@@ -15,8 +15,8 @@ The packages used in this progam are listed below. If you already have these pac
 There are three combinations of settings that can be used. The first option is to train the snakes. Note that `graphics_training` is turned off as it speeds up the training process. However, if you want to see the snakes progress over time during training this can be turned on. 
 
 * graphics_training=0
-* train=1
 * AI=1
+* train=1
 * show_best=0
 * best_snake=0
 * best_snake_graphics=0
@@ -25,8 +25,8 @@ There are three combinations of settings that can be used. The first option is t
 The second option is to show the best performing snakes of each generations from training.
 
 * graphics_training=0
-* train=0
 * AI=1
+* train=0
 * show_best=1
 * best_snake=0
 * best_snake_graphics=0
@@ -35,8 +35,8 @@ The second option is to show the best performing snakes of each generations from
  The third option is to show the best performing snake from training. Note that `best_snake_runs` is by default 1. However, if you want to let the best performing snake play for multiple times change this accordingly.
  
 * graphics_training=0
-* train=0
 * AI=1
+* train=0
 * show_best=0
 * best_snake=1
 * best_snake_graphics=1
