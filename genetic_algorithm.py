@@ -1,6 +1,3 @@
-import numpy as np
-import copy
-from settings import *
 """
 
 This script contains the Genetic Algorith. This algorithm contains
@@ -9,6 +6,9 @@ new offsprings in the next generation and mutation of the offsprings
 to create more variety of offsprings. 
 
 """
+import numpy as np
+import copy
+from settings import *
 
 class Genetic_Algorithm(object):
 

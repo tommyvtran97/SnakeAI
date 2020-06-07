@@ -1,3 +1,10 @@
+"""
+
+This script contains the feed forward neural network
+that is implemented to the algorithm to train the
+snake AI agent. 
+
+"""
 import numpy as np
 from settings import *
 

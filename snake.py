@@ -1,3 +1,11 @@
+"""
+
+This script contains functions for the snake. These
+functions are used together with the Snake Game
+to create a working environment. 
+
+"""
+
 import numpy as np 
 import pygame as pg 
 from math import *

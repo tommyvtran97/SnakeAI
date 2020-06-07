@@ -1,4 +1,3 @@
-import pygame as pg 
 """
 
 This script contains the main settings used for the Snake Game and the 
@@ -7,18 +6,18 @@ applying an genetic algorithm using crossover and mutation. The settings
 can be changed to the preference of the user.
 
 """
+import pygame as pg 
 
 # Program Settings
-graphics_training 	= 0		# Turn only on for graphics during training. Note that with this on training take ages!
-AI 					= 1
-train				= 1
+graphics_training 	= 0			# Turn only on for graphics during training. Note that with this on training take ages!
+AI 					= 1			
+train				= 0
 
-show_plot			= 0
-show_best			= 0
+show_best			= 0			
 
-best_snake 			= 0
-best_snake_graphics	= 0
-best_snake_runs		= 200
+best_snake 			= 1
+best_snake_graphics	= 1
+best_snake_runs		= 1
 
 FPS					= 30
 

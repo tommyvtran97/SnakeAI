@@ -1,9 +1,16 @@
+"""
+
+This script is used to generate the plots for
+the performance of the algorithm.
+
+"""
 import numpy as np
 import matplotlib.pyplot as plt 
 
-save 	= 0
+save 	= 1
 
-path 	= 'Saved/Snake_8Vision_149/'
+path 	= 'Saved/Model_7462/'
+savepath = 'Saved/Model_7462/Images/' 
 file1 	= open(path + 'top_snake_performance.txt', 'r')
 file2 	= open(path + 'training_data.txt', 'r')
 
@@ -34,38 +41,37 @@ for line in lines2:
 
 plt.plot(snake, score, label='Maximum score')
 plt.plot([snake[0], snake[-1]], [np.mean(score), np.mean(score)], label='Mean')
-plt.xlabel('Number of runs')
-plt.ylabel('Score')
+plt.xlabel('Number of runs [-]')
+plt.ylabel('Score [-]')
 plt.legend(loc=2)
 plt.grid()
 
 if save:
-	plt.savefig(path + 'performance.png', dpi=600)
+	plt.savefig(savepath + 'performance.png', dpi=600)
 
 fig = plt.figure(figsize=(10,6))
 plt.subplot(311)
-plt.plot(generation, max_fitness, label='Maximum Fitness')
-plt.ylabel('Fitness')
+plt.plot(generation, max_fitness)
+plt.yscale('log')
+plt.ylabel('Maximum Fitness [-]')
 plt.grid()
-plt.legend(loc=2)
 
 plt.subplot(312)
-plt.plot(generation, mean_fitness, label='Mean Fitness')
-plt.ylabel('Fitness')
+plt.plot(generation, mean_fitness)
+plt.yscale('log')
+plt.ylabel('Mean Fitness [-]')
 plt.grid()
-plt.legend(loc=2)
 
 plt.subplot(313)
-plt.plot(generation, max_score, label='Maximum Score')
-plt.xlabel('Generation')
-plt.ylabel('Score')
+plt.plot(generation, max_score)
+plt.xlabel('Generation [-]')
+plt.ylabel('Score [-]')
 plt.grid()
-plt.legend(loc=2)
 
 fig.align_labels()
 
 if save:
-	plt.savefig(path + 'training.png', dpi=600)
+	plt.savefig(savepath + 'training.png', dpi=600)
 
 plt.show()
 

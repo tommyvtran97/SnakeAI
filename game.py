@@ -1,3 +1,11 @@
+"""
+
+This script contains the Snake Game. It also include
+some functions that were required in order to combine
+the snake game with the neural network and genetic
+algorithm to make it work.
+
+"""
 import numpy as np
 import pygame as pg 
 import matplotlib.pyplot as plt
@@ -137,10 +145,9 @@ class Game(object):
 		return (pos_x, pos_y, food_pos_x, food_pos_y, dx, dy, snake_list, snake_length, snake_head, points, steps_taken, steps_left)
 
 if __name__ == "__main__":
-
+	# Training the AI agent
 	if train:
-		seed = np.random.randint(10000)
-		np.random.seed(7462)						
+		np.random.seed(7462)							
 		highscore 	= 0
 		top_fitness = 0
 		weights 	= None
@@ -152,7 +159,7 @@ if __name__ == "__main__":
 		max_fitness_list	= []
 		score_list			= []
 
-		file = open("training_data.txt",'w+') 
+		file = open("Saved/Performance_Data/training_data.txt",'w+') 
 
 		for generation in range(num_generations):
 			start = Game(weights, bias)
@@ -162,8 +169,8 @@ if __name__ == "__main__":
 
 			if max(fitness) > top_fitness:
 				snake_idx = fitness.index(max(fitness))
-				np.savez('top_snake_weights.npz', weights[snake_idx][0], weights[snake_idx][1])
-				np.savez('top_snake_bias.npz', bias[snake_idx][0], bias[snake_idx][1])
+				np.savez('Saved/Performance_Data/top_snake_weights.npz', weights[snake_idx][0], weights[snake_idx][1])
+				np.savez('Saved/Performance_Data/top_snake_bias.npz', bias[snake_idx][0], bias[snake_idx][1])
 				top_fitness = max(fitness)
 
 			generation_list.append(generation+1)
@@ -184,41 +191,16 @@ if __name__ == "__main__":
 			bias 	= parents_bias + offspring_bias
 
 		file.close()
+		np.save('Saved/Performance_Data/top_snakes_index.npy', top_snakes_idx)
 
-		np.save('top_snakes_index.npy', top_snakes_idx)
-		print(seed)
-
-	if show_plot:
-		fig = plt.figure(figsize=(10,6))
-		plt.subplot(311)
-		plt.plot(generation_list, max_fitness_list, label='Maximum Fitness')
-		plt.ylabel('Fitness')
-		plt.grid()
-		plt.legend(loc=2)
-
-		plt.subplot(312)
-		plt.plot(generation_list, mean_fitness_list, label='Mean Fitness')
-		plt.ylabel('Fitness')
-		plt.grid()
-		plt.legend(loc=2)
-
-		plt.subplot(313)
-		plt.plot(generation_list, score_list, label='Maximum Score')
-		plt.xlabel('Generation')
-		plt.ylabel('Score')
-		plt.grid()
-		plt.legend(loc=2)
-
-		fig.align_labels()
-		plt.show()
-
+	# Show the best snakes from each generation 	
 	if show_best:
-		np.random.seed()
+		np.random.seed(7462)
 		highscore 	= 0
 		weights 	= None
 		bias 		= None
 
-		top_snakes = np.load('top_snakes_index.npy')
+		top_snakes = np.load('Saved/Model_7462/top_snakes_index.npy')
 
 		for generation in range(num_generations):
 			start = Game(weights, bias)
@@ -234,28 +216,22 @@ if __name__ == "__main__":
 			weights = parents_weights + offspring_weights_mutated
 			bias 	= parents_bias + offspring_bias
 
+	# Show the best performing snake from training
 	if best_snake:
-		np.random.seed()
+		np.random.seed(32542)	#seed 32542 results in a score of 264!
 		highscore 	= 0
 		generation 	= 0
 
-		snake_weights 	= np.load('Saved/Snake_8Vision_149/top_snake_weights.npz')
-		snake_bias 	 	= np.load('Saved/Snake_8Vision_149/top_snake_bias.npz')
+		snake_weights 	= np.load('Saved/Model_7462/top_snake_weights.npz')
+		snake_bias 	 	= np.load('Saved/Model_7462/top_snake_bias.npz')
 
 		weights = [snake_weights['arr_0'], snake_weights['arr_1']]
 		bias 	= [snake_bias['arr_0'], snake_bias['arr_1']]
 
-		file = open("top_snake_performance.txt",'w+') 
-
 		for snake in range(best_snake_runs):
 			start = Game(weights, bias)
 			weights, bias, fitness, highscore, highscore_gen = start.run_game(highscore, (generation+1))
+
 			print ('Snake: {} Score: {}'.format(snake+1, highscore_gen))
 
-			file.write(str(snake+1) + ',' + str(highscore_gen) + '\n')
-
-		file.close()
-
-#7462	Population = 500 - Parents = 50 - Generation = 300 Mutation Rate: 0.01 - 8 direction vision (food, body, wall) - Max Score = 149 NN: [24,16,4]
-		
-
+#7462	Population = 500 - Parents = 50 - Generation = 500 Mutation Rate: 0.01 - 8 direction vision (food, body, wall) - Max Score = 253 NN: [24,16,4]
