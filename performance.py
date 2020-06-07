@@ -49,9 +49,10 @@ plt.grid()
 if save:
 	plt.savefig(savepath + 'performance.png', dpi=600)
 
-fig = plt.figure(figsize=(10,6))
+fig = plt.figure(figsize=(15,6))
 plt.subplot(311)
 plt.plot(generation, max_fitness)
+plt.title('Population size: 500 - Mutation rate: 0.01')
 plt.yscale('log')
 plt.ylabel('Maximum Fitness [-]')
 plt.grid()
