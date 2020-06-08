@@ -11,7 +11,7 @@ save 	= 1
 
 path 	= 'Saved/Model_7462/'
 savepath = 'Saved/Model_7462/Images/' 
-file1 	= open(path + 'top_snake_performance.txt', 'r')
+file1 	= open(path + 'performance_25x25.txt', 'r')
 file2 	= open(path + 'training_data.txt', 'r')
 
 lines1 	= file1.readlines()
