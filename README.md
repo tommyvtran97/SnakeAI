@@ -22,7 +22,7 @@ There are three combinations of settings that can be used. The first option is t
 * best_snake_graphics=0
 * best_snake_runs=1
 
-The second option is to show the best performing snakes of each generations from training.
+The second option is to show the best performing snakes of each generations from training. The path to load the model can be changed in `game.py` on line `203`. By default it will load the already pre-trained model. 
 
 * graphics_training=0
 * AI=1
@@ -32,7 +32,7 @@ The second option is to show the best performing snakes of each generations from
 * best_snake_graphics=0
 * best_snake_runs=1
  
- The third option is to show the best performing snake from training. Note that `best_snake_runs` is by default 1. However, if you want to let the best performing snake play for multiple times change this accordingly.
+ The third option is to show the best performing snake from training. Note that `best_snake_runs` is by default 1. However, if you want to let the best performing snake play for multiple times change this accordingly. The path to load the model can be changed in `game.py` on line `225-226`. By default it will load the already pre-trained model. 
  
 * graphics_training=0
 * AI=1
