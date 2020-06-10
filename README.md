@@ -1,6 +1,6 @@
 # Snake Game Artificial Intelligence using a Genetic Algorithm
 
-The AI agent is trained using a feed forward neural network in combination with a genetic algorithm. The feed forward neural network consists of 24 inputs. The inputs are based on the vision of the snake. The snake can look in 8 directions and in each directions it has three inputs, the food, body and wall (3x8). The input for the food is binary whereas for the body and the wall the distance relative to the head of the snake is calculated. One hidden layer with 16 neurons and an output layer with 4 outputs (left, right, up and down) which indicates the direction to be taken by the snake in the next state. 
+The AI agent is trained using a feed forward neural network in combination with a genetic algorithm. The feed forward neural network consists of 24 inputs. The inputs are based on the vision of the snake. The snake can look in 8 directions and in each directions it has three inputs, the food, body and wall (3x8). The input for the food is binary whereas for the body and the wall the distance relative to the head of the snake is calculated. One hidden layer with 16 neurons and an output layer with 4 outputs (left, right, up and down) which indicate the direction to be taken by the snake in the next state. 
 
 For the genetic algorithm, uniform crossover and uniform mutation are used. Furthermore training is done using a population size of 500 snakes and a mutation rate of 0.01 (1%).
 
