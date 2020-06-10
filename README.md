@@ -12,7 +12,7 @@ The packages used in this progam are listed below. If you already have these pac
 * Matplotlib
 
 ## Part 2) Settings 
-There are three combinations of settings that can be used. The first option is to train the snakes. Note that `graphics_training` is turned off as it speeds up the training process. However, if you want to see the snakes progress over time during training this can be turned on. 
+There are three combinations of settings that can be used. The first option is to train the snakes. Note that `graphics_training` is turned off as it speeds up the training process. However, if you want to see the snakes progress over time during training this can be turned on. Note that document already consist of a pre-trained model. Only use this option if you want to create a new model.  
 
 * graphics_training=0
 * AI=1
