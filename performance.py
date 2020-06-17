@@ -7,7 +7,7 @@ the performance of the algorithm.
 import numpy as np
 import matplotlib.pyplot as plt 
 
-save 	= 1
+save 	= 0
 
 path 	= 'Saved/Model_7462/'
 savepath = 'Saved/Model_7462/Images/' 

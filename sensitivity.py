@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 path  		= 'Saved/Performance_Data/'
 savepath 	= 'Saved/Model_7462/Images/' 
-save  		= 1
+save  		= 0
 
 file1 = open(path + 'training_data_500_0.01.txt', 'r')
 file2 = open(path + 'training_data_500_0.02.txt', 'r')

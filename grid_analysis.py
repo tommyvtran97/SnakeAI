@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 path = 'Saved/Performance_Data/'
 savepath = 'Saved/Model_7462/Images/' 
-save = 1
+save = 0
 
 file1 = open(path + 'performance_10x10.txt', 'r')
 file2 = open(path + 'performance_15x15.txt', 'r')
@@ -45,14 +45,11 @@ for line in lines4:
 	data = line.strip('\n').split(',')
 	score_normalized4.append(int(data[1])/(25*25))
 
-plt.plot(snake, score_normalized1, label='10x10 grid')
-plt.plot(snake, score_normalized2, label='15x15 grid')
-plt.plot(snake, score_normalized3, label='20x20 grid')
-plt.plot(snake, score_normalized4, label='25x25 grid')
-plt.xlabel('Number of runs [-]')
+box_plot_data = [score_normalized1, score_normalized2, score_normalized3, score_normalized4]
+plt.boxplot(box_plot_data, patch_artist=True,labels=['10x10','15x15','20x20','25x25'], showfliers=True)
+plt.xlabel('Grid size [-]')
 plt.ylabel('Maximum score normalized [-]')
 plt.grid()
-plt.legend(loc=2)
 
 if save:
 	plt.savefig(savepath + 'sensitivity3.png', dpi=600)
