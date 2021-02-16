@@ -43,4 +43,4 @@ The second option is to show the best performing snakes of each generations from
 * best_snake_runs=1
 
 ## Part 3) Run the game
-After intialization the settings, the game can be started by navigation to the main folder and running the following command: `python game.py`
+After intializating the settings, the game can be started by navigating to the main folder and running the following command: `python game.py`
